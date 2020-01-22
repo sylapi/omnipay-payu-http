@@ -13,7 +13,7 @@ to your `composer.json` file:
 ```json
 {
     "require": {
-        "sylapi/paylane": "~1.0"
+        "sylapi/payu": "~1.0"
     }
 }
 ```
@@ -49,7 +49,14 @@ $response = $gateway->purchase(
         "transactionId" => "12345",
         "returnUrl" => "https://webshop.example.org/mollie-return.php",
         "email" => "email@example.com",
-        "name" => "Jan Kowalski"
+        "name" => "Jan Kowalski",
+        "items" => [
+            [
+                "name" => "Product name",
+                "price" => "10.00",
+                "quantity" => 1
+            ]
+        ]
     ]
 )->send();
 
