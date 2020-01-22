@@ -1,0 +1,46 @@
+HTTP/1.1 200 OK
+Server: nginx/1.4.4
+Date: Sun, 19 Jan 2014 12:48:09 GMT
+Content-Type: application/json; charset=utf-8
+Content-Length: 394
+Connection: keep-alive
+Access-Control-Allow-Credentials: true
+Access-Control-Allow-Methods: GET, POST, HEAD, OPTIONS, DELETE
+Access-Control-Max-Age: 300
+Cache-Control: no-cache, no-store
+Strict-Transport-Security: max-age=31556926; includeSubDomains
+X-Whom: dc1-web-2
+
+{
+    "orders":[
+        {
+            "orderId":"12345ABCD",
+            "extOrderId":"123344",
+            "orderCreateDate":"2020-01-22T09:34:03.876+01:00",
+            "notifyUrl":"http://localhost/omnipay/gateways/PayU/notifyPurchase",
+            "customerIp":"127.0.0.1",
+            "merchantPosId":"12345",
+            "description":"order",
+            "currencyCode":"PLN",
+            "totalAmount":"1000",
+            "status":"PENDING",
+            "products":[
+                {
+                    "name":"Product name",
+                    "unitPrice":"1000",
+                    "quantity":"1"
+                }
+            ]
+        }
+    ],
+    "status":{
+        "statusCode":"SUCCESS",
+        "statusDesc":"Request processing successful"
+    },
+    "properties":[
+        {
+            "name":"PAYMENT_ID",
+            "value":"123456789"
+        }
+    ]
+}
