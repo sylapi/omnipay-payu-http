@@ -50,6 +50,7 @@ $response = $gateway->purchase(
         "returnUrl" => "https://webshop.example.org/mollie-return.php",
         "email" => "email@example.com",
         "name" => "Jan Kowalski",
+        "payMethod" => "m",
         "items" => [
             [
                 "name" => "Product name",
@@ -77,7 +78,6 @@ if ($response->isSuccessful()) {
     echo $response->getMessage();
 }
 ```
-
 
 For general usage instructions, please see the main [Omnipay](https://github.com/thephpleague/omnipay)
 repository.

@@ -27,6 +27,22 @@ class AuthorizeRequest extends AbstractRequest
         return $this->setParameter('name', $value);
     }
 
+    public function getPayMethod() {
+        return $this->getParameter('payMethod');
+    }
+
+    public function setPayMethod($value) {
+        return $this->setParameter('payMethod', $value);
+    }
+
+    public function getPayMethodValue() {
+        return $this->getParameter('payMethodValue');
+    }
+
+    public function setPayMethodValue($value) {
+        return $this->setParameter('payMethodValue', $value);
+    }
+
     public function getData()
     {
         $this->getRequestMethod('POST');
@@ -57,6 +73,17 @@ class AuthorizeRequest extends AbstractRequest
                         'quantity' => $item['quantity'],
                     ];
                 }
+            }
+        }
+
+        if ($this->getPayMethod()) {
+            $data['payMethods']['payMethod'] = [
+                'type' => 'PBL',
+                'value' => $this->getPayMethod(),
+            ];
+
+            if ($this->getPayMethodValue()) {
+                $data['payMethods']['payMethod']['authorizationCode'] = $this->getPayMethodValue();
             }
         }
 
