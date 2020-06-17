@@ -41,6 +41,8 @@ $gateway->setPosId('12345');
 $gateway->setSecondKey('12345ABCD');
 $gateway->setClientSecret('12345ABCD');
 
+$gateway->setIp('192.0.0.1');
+
 $response = $gateway->purchase(
     [
         "amount" => "10.00",
