@@ -44,19 +44,17 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
     public function getOrderId() {
         return (!empty($_SESSION['OmniPay_PayU_OrderId'])) ? $_SESSION['OmniPay_PayU_OrderId'] : $this->getParameter('order_id');
     }
+
     public function setOrderId($value) {
         $_SESSION['OmniPay_PayU_OrderId'] = $value;
         return $this->setParameter('order_id', $value);
     }
 
-    public function getItems()
-    {
+    public function getItems() {
         return $this->getParameter('items');
     }
 
-    public function setItems($items)
-    {
-
+    public function setItems($items) {
         return $this->setParameter('items', $items);
     }
 
@@ -97,7 +95,6 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
         return '';
     }
 
-
     public function getHeaders() {
 
         $token = $this->getAccessToken();
@@ -110,8 +107,8 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
         return $headers;
     }
 
-    public function sendData($data)
-    {
+    public function sendData($data) {
+
         $headers = $this->getHeaders();
 
         if (empty($this->tokenResonseFailure)) {
@@ -126,8 +123,8 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
         return $this->createResponse($responseBody, []);
     }
 
-    protected function createResponse($data, $headers = [])
-    {
+    protected function createResponse($data, $headers = []) {
+
         if (!empty($data['orderId'])) {
             $this->setOrderId($data['orderId']);
         }
@@ -135,9 +132,7 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
         return $this->response = new Response($this, $data, $headers);
     }
 
-    protected function getEndpointUrl()
-    {
-        $this->setTestMode(true);
+    protected function getEndpointUrl() {
 
         return $this->getTestMode() ? $this->testEndpoint : $this->liveEndpoint;
     }

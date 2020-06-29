@@ -89,12 +89,10 @@ class CompletePurchaseResponse extends AbstractResponse implements RedirectRespo
         return $reference;
     }
 
-
     public function getRedirectMethod() {
 
         return 'GET';
     }
-
 
     public function getRedirectData() {
 

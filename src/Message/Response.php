@@ -6,7 +6,6 @@ use Omnipay\Common\Message\AbstractResponse;
 use Omnipay\Common\Message\RedirectResponseInterface;
 use Omnipay\Common\Message\RequestInterface;
 
-
 class Response extends AbstractResponse implements RedirectResponseInterface
 {
     protected $requestId = null;
@@ -21,6 +20,7 @@ class Response extends AbstractResponse implements RedirectResponseInterface
     }
 
     public function isSuccessful() {
+
         if (!empty($this->data['status']['statusCode']) && $this->data['status']['statusCode'] == 'SUCCESS') {
             return true;
         }
@@ -40,12 +40,24 @@ class Response extends AbstractResponse implements RedirectResponseInterface
 
         if (!$this->isSuccessful()) {
 
+            $error = '';
+
             if (isset($this->data['error_description'])) {
-                return $this->data['error_description'];
+                $error = $this->data['error_description'];
             }
             else if (isset($this->data['status']['statusDesc'])) {
-                return $this->data['status']['statusDesc'];
+
+                $error = $this->data['status']['statusDesc'];
+
+                if (isset($this->data['status']['codeLiteral'])) {
+                    $error .= ': ' . $this->data['status']['codeLiteral'];
+                }
             }
+            else {
+                $error .= 'Undefined error.';
+            }
+
+            return $error;
         }
 
         return null;
@@ -58,6 +70,9 @@ class Response extends AbstractResponse implements RedirectResponseInterface
         }
         else if (isset($this->data['error'])) {
             return $this->data['error'];
+        }
+        else {
+            return 404;
         }
 
         return null;
@@ -99,16 +114,13 @@ class Response extends AbstractResponse implements RedirectResponseInterface
         return null;
     }
 
-
     public function getRedirectMethod() {
 
         return 'GET';
     }
 
-
     public function getRedirectData() {
 
         return null;
     }
-
 }

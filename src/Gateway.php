@@ -4,7 +4,6 @@ namespace Omnipay\PayU;
 
 use Omnipay\Common\AbstractGateway;
 
-
 class Gateway extends AbstractGateway
 {
     public function getName() {
@@ -88,5 +87,9 @@ class Gateway extends AbstractGateway
 
     public function completePurchase(array $parameters = array()) {
         return $this->createRequest('\Omnipay\PayU\Message\CompletePurchaseRequest', $parameters);
+    }
+
+    public function completePurchaseNotify(array $parameters = array()) {
+        return $this->createRequest('\Omnipay\PayU\Message\CompletePurchaseNotifyRequest', $parameters);
     }
 }

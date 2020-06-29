@@ -37,11 +37,10 @@ repository.
 
 ```php
 $gateway = \Omnipay\Omnipay::create('PayU');  
-$gateway->setPosId('12345');
-$gateway->setSecondKey('12345ABCD');
-$gateway->setClientSecret('12345ABCD');
-
-$gateway->setIp('192.0.0.1');
+$gateway->setPosId('--Merchant Pos Id--');
+$gateway->setClientSecret('--Client Secret--');
+$gateway->setSecondKey('--Second key--');
+$gateway->setIp('--IP--');
 
 $response = $gateway->purchase(
     [
@@ -49,7 +48,6 @@ $response = $gateway->purchase(
         "currency" => "PLN",
         "description" => "My Payment",
         "transactionId" => "12345",
-        "returnUrl" => "https://webshop.example.org/mollie-return.php",
         "email" => "email@example.com",
         "name" => "Jan Kowalski",
         "payMethod" => "m",
@@ -59,25 +57,41 @@ $response = $gateway->purchase(
                 "price" => "10.00",
                 "quantity" => 1
             ]
-        ]
+        ],
+        "returnUrl" => "https://example.org/payu-success.php",
+        "cancelUrl" => "https://example.org/payu-error.php",
+        "notifyUrl" => "https://example.org/payu-callback.php",
     ]
 )->send();
 
 // Process response
 if ($response->isSuccessful()) {
 
-    // Payment was successful
-    print_r($response);
+    if ($response->isRedirect()) {
+        $response->redirect();
+    }
+    else {
+        $data = $response->getData();
+    }
+} 
+else {
+    $error = $response->getMessage();
+    $code = $response->getCode();
+}
+```
 
-} elseif ($response->isRedirect()) {
+### Basic purchase success example
+```php
+$response = $gateway->completePurchaseNotify($_POST);
 
-    // Redirect to offsite payment gateway
-    $response->redirect();
+if ($response->isSuccessful()) {
 
-} else {
-
-    // Payment failed
-    echo $response->getMessage();
+    $message = $response->getMessage();
+    $status = $response->getStatus();
+}
+else {
+    $error = $response->getMessage();
+    $code = $response->getCode();
 }
 ```
 

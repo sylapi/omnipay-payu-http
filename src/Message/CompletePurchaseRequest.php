@@ -12,7 +12,7 @@ class CompletePurchaseRequest extends AbstractRequest
 
     protected function getEndpoint() {
 
-        return $this->getEndpointUrl().'/api/v2_1/orders/50899'.urlencode($this->getOrderId());
+        return $this->getEndpointUrl().'/api/v2_1/orders/'.urlencode($this->getOrderId());
     }
 
     public function sendData($data)
