@@ -3,6 +3,7 @@
 namespace Omnipay\PayU;
 
 use Omnipay\Common\AbstractGateway;
+use Omnipay\PayU\Message\Notification;
 
 class Gateway extends AbstractGateway
 {
