@@ -6,11 +6,13 @@ use Omnipay\Common\AbstractGateway;
 
 class Gateway extends AbstractGateway
 {
-    public function getName() {
+    public function getName()
+    {
         return 'PayU';
     }
 
-    public function getDefaultParameters() {
+    public function getDefaultParameters()
+    {
         return [
             'posId'        => '',
             'secondKey'    => '',
@@ -19,43 +21,53 @@ class Gateway extends AbstractGateway
         ];
     }
 
-    public function getSecondKey() {
+    public function getSecondKey()
+    {
         return $this->getParameter('secondKey');
     }
 
-    public function setSecondKey($secondKey) {
+    public function setSecondKey($secondKey)
+    {
         return $this->setParameter('secondKey', $secondKey);
     }
 
-    public function getPosId() {
+    public function getPosId()
+    {
         return $this->getParameter('posId');
     }
 
-    public function setPosId($posId) {
+    public function setPosId($posId)
+    {
         return $this->setParameter('posId', $posId);
     }
 
-    public function getClientSecret() {
+    public function getClientSecret()
+    {
         return $this->getParameter('clientSecret');
     }
 
-    public function setClientSecret($clientSecret) {
+    public function setClientSecret($clientSecret)
+    {
         return $this->setParameter('clientSecret', $clientSecret);
     }
 
-    public function getPosAuthKey() {
+    public function getPosAuthKey()
+    {
         return $this->getParameter('posAuthKey');
     }
 
-    public function setPosAuthKey($posAuthKey = null) {
+    public function setPosAuthKey($posAuthKey = null)
+    {
         return $this->setParameter('posAuthKey', $posAuthKey);
     }
 
-    public function getIp() {
+    public function getIp()
+    {
         return $this->getParameter('ip');
     }
 
-    public function setIp($value) {
+    public function setIp($value)
+    {
         return $this->setParameter('ip', $value);
     }
 
@@ -73,23 +85,28 @@ class Gateway extends AbstractGateway
         return $this->setParameter('items', $items);
     }
 
-    public function authorize(array $parameters = array()) {
+    public function authorize(array $parameters = array())
+    {
         return $this->createRequest('\Omnipay\PayU\Message\AuthorizeRequest', $parameters);
     }
 
-    public function completeAuthorize(array $parameters = array()) {
+    public function completeAuthorize(array $parameters = array())
+    {
         return $this->createRequest('\Omnipay\PayU\Message\CompletePurchaseRequest', $parameters);
     }
 
-    public function purchase(array $parameters = array()) {
+    public function purchase(array $parameters = array())
+    {
         return $this->createRequest('\Omnipay\PayU\Message\PurchaseRequest', $parameters);
     }
 
-    public function completePurchase(array $parameters = array()) {
+    public function completePurchase(array $parameters = array())
+    {
         return $this->createRequest('\Omnipay\PayU\Message\CompletePurchaseRequest', $parameters);
     }
 
-    public function completePurchaseNotify(array $parameters = array()) {
-        return $this->createRequest('\Omnipay\PayU\Message\CompletePurchaseNotifyRequest', $parameters);
+    public function acceptNotification()
+    {
+        return new Notification($this->httpRequest, $this->httpClient, $this->getParameter('secondKey'));
     }
 }

@@ -22,7 +22,8 @@
         "psr-4": { "Omnipay\\PayU\\" : "src/" }
     },
     "require": {
-        "omnipay/common": "^3"
+        "omnipay/common": "^3",
+        "openpayu/openpayu" : "2.2.*"
     },
     "require-dev": {
         "omnipay/tests": "^3"
