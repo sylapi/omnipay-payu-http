@@ -102,7 +102,7 @@ class Notification implements NotificationInterface
             if (OpenPayU_Util::verifySignature($content, $sign['signature'], $this->secondKey, $sign['algorithm'])) {
                 $this->cachedData = json_decode($content);
             } else {
-                throw new InvalidRequestException('Invalid signature - ' . $sign->signature);
+                throw new InvalidRequestException('Invalid signature - ' . $sign['signature']);
             }
         }
 
