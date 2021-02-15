@@ -70,7 +70,7 @@ class Notification implements NotificationInterface
      * }*/
 
     /**
-     * Gateway Reference
+     * Gateway Reference.
      *
      * @return string A reference provided by the gateway to represent this transaction
      */
@@ -86,8 +86,10 @@ class Notification implements NotificationInterface
     /**
      * Get the raw data array for this message. The format of this varies from gateway to
      * gateway, but will usually be either an associative array, or a SimpleXMLElement.
-     * @return mixed
+     *
      * @throws InvalidRequestException
+     *
+     * @return mixed
      */
     public function getData()
     {
@@ -96,13 +98,12 @@ class Notification implements NotificationInterface
 
             $incomingSignature = $this->getSignature($this->httpRequest);
 
-
             $sign = OpenPayU_Util::parseSignature($incomingSignature);
 
             if (OpenPayU_Util::verifySignature($content, $sign['signature'], $this->secondKey, $sign['algorithm'])) {
                 $this->cachedData = json_decode($content);
             } else {
-                throw new InvalidRequestException('Invalid signature - ' . $sign['signature']);
+                throw new InvalidRequestException('Invalid signature - '.$sign['signature']);
             }
         }
 
@@ -111,8 +112,10 @@ class Notification implements NotificationInterface
 
     /**
      * @param Request $request
-     * @return string
+     *
      * @throws InvalidRequestException
+     *
+     * @return string
      */
     private function getSignature(Request $request)
     {
@@ -121,14 +124,16 @@ class Notification implements NotificationInterface
         } elseif ($request->headers->has(self::X_OPEN_PAY_U_SIGNATURE)) {
             return $request->headers->get(self::X_OPEN_PAY_U_SIGNATURE);
         }
-        throw new InvalidRequestException('There is no ' . self::OPEN_PAY_U_SIGNATURE . ' or ' . self::X_OPEN_PAY_U_SIGNATURE . ' header present in request');
+
+        throw new InvalidRequestException('There is no '.self::OPEN_PAY_U_SIGNATURE.' or '.self::X_OPEN_PAY_U_SIGNATURE.' header present in request');
     }
 
     /**
      * Was the transaction successful?
      *
-     * @return string Transaction status, one of {@see STATUS_COMPLETED}, {@see #STATUS_PENDING} or {@see #STATUS_FAILED}.
      * @throws InvalidRequestException
+     *
+     * @return string Transaction status, one of {@see STATUS_COMPLETED}, {@see #STATUS_PENDING} or {@see #STATUS_FAILED}.
      */
     public function getTransactionStatus()
     {
@@ -141,12 +146,13 @@ class Notification implements NotificationInterface
             } elseif (in_array($status, ['CANCELLED', 'REJECTED'])) {
                 return self::STATUS_FAILED;
             }
-            throw new InvalidRequestException('We have received unknown status "' . $status . '"');
+
+            throw new InvalidRequestException('We have received unknown status "'.$status.'"');
         }
     }
 
     /**
-     * Response Message
+     * Response Message.
      *
      * @return string A response message from the payment gateway
      */

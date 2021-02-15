@@ -9,59 +9,71 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
 
     protected $tokenResonseFailure = null;
 
-    public function getIp() {
+    public function getIp()
+    {
         return $this->getParameter('ip');
     }
 
-    public function setIp($value) {
+    public function setIp($value)
+    {
         return $this->setParameter('ip', $value);
     }
 
-    public function getPosId() {
+    public function getPosId()
+    {
         return $this->getParameter('apiKey');
     }
 
-    public function setPosID($value) {
+    public function setPosID($value)
+    {
         return $this->setParameter('apiKey', $value);
     }
 
-    public function getClientSecret() {
+    public function getClientSecret()
+    {
         return $this->getParameter('clientSecret');
     }
 
-    public function getSecondKey() {
+    public function getSecondKey()
+    {
         return $this->getParameter('secondKey');
     }
 
-    public function setSecondKey($secondKey) {
+    public function setSecondKey($secondKey)
+    {
         return $this->setParameter('secondKey', $secondKey);
     }
 
-    public function setClientSecret($clientSecret) {
+    public function setClientSecret($clientSecret)
+    {
         return $this->setParameter('clientSecret', $clientSecret);
     }
 
-    public function getOrderId() {
+    public function getOrderId()
+    {
         return (!empty($_SESSION['OmniPay_PayU_OrderId'])) ? $_SESSION['OmniPay_PayU_OrderId'] : $this->getParameter('order_id');
     }
 
-    public function setOrderId($value) {
+    public function setOrderId($value)
+    {
         $_SESSION['OmniPay_PayU_OrderId'] = $value;
+
         return $this->setParameter('order_id', $value);
     }
 
-    public function getItems() {
+    public function getItems()
+    {
         return $this->getParameter('items');
     }
 
-    public function setItems($items) {
+    public function setItems($items)
+    {
         return $this->setParameter('items', $items);
     }
 
-    protected function getAccessToken() {
-
+    protected function getAccessToken()
+    {
         if (!$this->getToken()) {
-
             $header = ['Content-type' => 'application/json'];
             $uri = 'grant_type=client_credentials&client_id='.$this->getPosId().'&client_secret='.$this->getClientSecret();
 
@@ -70,8 +82,7 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
 
             if (!empty($responseBody['access_token'])) {
                 $this->setToken($responseBody['access_token']);
-            }
-            else {
+            } else {
                 $this->tokenResonseFailure = $responseBody;
             }
         }
@@ -79,52 +90,55 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
         return $this->getToken();
     }
 
-    public function getRequestMethod() {
+    public function getRequestMethod()
+    {
         $method = $this->getParameter('request_method');
+
         return ($method) ? $method : 'POST';
     }
 
-    public function setRequestMethod($value) {
+    public function setRequestMethod($value)
+    {
         return $this->setParameter('request_method', $value);
     }
 
-    protected function toAmount($value) {
+    protected function toAmount($value)
+    {
         if (!empty($value)) {
-            return (int)round($value * 100);
+            return (int) round($value * 100);
         }
+
         return '';
     }
 
-    public function getHeaders() {
-
+    public function getHeaders()
+    {
         $token = $this->getAccessToken();
 
         $headers = [
-            'Content-type' => 'application/json',
-            'Authorization' => 'Bearer ' . $token,
+            'Content-type'  => 'application/json',
+            'Authorization' => 'Bearer '.$token,
         ];
 
         return $headers;
     }
 
-    public function sendData($data) {
-
+    public function sendData($data)
+    {
         $headers = $this->getHeaders();
 
         if (empty($this->tokenResonseFailure)) {
-
             $httpResponse = $this->httpClient->request($this->getRequestMethod(), $this->getEndpoint(), $headers, json_encode($data));
             $responseBody = json_decode($httpResponse->getBody()->getContents(), true);
-        }
-        else {
+        } else {
             $responseBody = $this->tokenResonseFailure;
         }
 
         return $this->createResponse($responseBody, []);
     }
 
-    protected function createResponse($data, $headers = []) {
-
+    protected function createResponse($data, $headers = [])
+    {
         if (!empty($data['orderId'])) {
             $this->setOrderId($data['orderId']);
         }
@@ -132,8 +146,8 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
         return $this->response = new Response($this, $data, $headers);
     }
 
-    protected function getEndpointUrl() {
-
+    protected function getEndpointUrl()
+    {
         return $this->getTestMode() ? $this->testEndpoint : $this->liveEndpoint;
     }
 }

@@ -12,14 +12,15 @@ class CompletePurchaseResponse extends AbstractResponse implements RedirectRespo
 
     protected $headers = [];
 
-    public function __construct(RequestInterface $request, $data, $headers = []) {
-
+    public function __construct(RequestInterface $request, $data, $headers = [])
+    {
         $this->request = $request;
         $this->data = $data;
         $this->headers = $headers;
     }
 
-    public function isSuccessful() {
+    public function isSuccessful()
+    {
         if (!empty($this->data['status']['statusCode']) && $this->data['status']['statusCode'] == 'SUCCESS') {
             return true;
         }
@@ -27,7 +28,8 @@ class CompletePurchaseResponse extends AbstractResponse implements RedirectRespo
         return false;
     }
 
-    public function getResponse() {
+    public function getResponse()
+    {
         if ($this->isSuccessful()) {
             return $this->data;
         }
@@ -35,50 +37,47 @@ class CompletePurchaseResponse extends AbstractResponse implements RedirectRespo
         return null;
     }
 
-    public function getMessage() {
-
+    public function getMessage()
+    {
         if (isset($this->data['error_description'])) {
             return $this->data['error_description'];
-        }
-        else if (isset($this->data['message'])) {
-            return $this->data['message'] . ': ' . $this->data['error'];
-        }
-        else if (isset($this->data['status']['statusDesc'])) {
+        } elseif (isset($this->data['message'])) {
+            return $this->data['message'].': '.$this->data['error'];
+        } elseif (isset($this->data['status']['statusDesc'])) {
             return $this->data['status']['statusDesc'];
         }
 
         return null;
     }
 
-    public function getCode() {
-
+    public function getCode()
+    {
         if (isset($this->data['status']['statusCode'])) {
             return $this->data['status']['statusCode'];
-        }
-        else if (isset($this->data['status']) && is_numeric($this->data['status'])) {
+        } elseif (isset($this->data['status']) && is_numeric($this->data['status'])) {
             return $this->data['status'];
         }
 
         return null;
     }
 
-    public function isRedirect() {
-
+    public function isRedirect()
+    {
         return false;
     }
 
-    public function redirect() {
-
+    public function redirect()
+    {
         return false;
     }
 
-    public function getRedirectUrl() {
-
+    public function getRedirectUrl()
+    {
         return null;
     }
 
-    public function getTransactionReference() {
-
+    public function getTransactionReference()
+    {
         $reference = $this->data['orders'][0]['orderId'];
 
         if (empty($reference)) {
@@ -86,16 +85,17 @@ class CompletePurchaseResponse extends AbstractResponse implements RedirectRespo
         }
 
         $_SESSION['OmniPay_PayU_OrderId'] = null;
+
         return $reference;
     }
 
-    public function getRedirectMethod() {
-
+    public function getRedirectMethod()
+    {
         return 'GET';
     }
 
-    public function getRedirectData() {
-
+    public function getRedirectData()
+    {
         return null;
     }
 }

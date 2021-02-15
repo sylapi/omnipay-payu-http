@@ -86,22 +86,22 @@ class Gateway extends AbstractGateway
         return $this->setParameter('items', $items);
     }
 
-    public function authorize(array $parameters = array())
+    public function authorize(array $parameters = [])
     {
         return $this->createRequest('\Omnipay\PayU\Message\AuthorizeRequest', $parameters);
     }
 
-    public function completeAuthorize(array $parameters = array())
+    public function completeAuthorize(array $parameters = [])
     {
         return $this->createRequest('\Omnipay\PayU\Message\CompletePurchaseRequest', $parameters);
     }
 
-    public function purchase(array $parameters = array())
+    public function purchase(array $parameters = [])
     {
         return $this->createRequest('\Omnipay\PayU\Message\PurchaseRequest', $parameters);
     }
 
-    public function completePurchase(array $parameters = array())
+    public function completePurchase(array $parameters = [])
     {
         return $this->createRequest('\Omnipay\PayU\Message\CompletePurchaseRequest', $parameters);
     }

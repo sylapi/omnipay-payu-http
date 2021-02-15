@@ -7,39 +7,40 @@ class CompletePurchaseNotifyRequest extends AbstractRequest
     public function getData()
     {
         $data = parent::getData();
+
         return $data;
     }
 
-    public function isSuccessful() {
-
+    public function isSuccessful()
+    {
         $order = $this->httpRequest->request->get('order');
 
         if (!empty($order['status']) && $order['status'] == 'COMPLETED') {
-
             return true;
         }
+
         return false;
     }
 
-    public function getMessage() {
-
+    public function getMessage()
+    {
         $order = $this->httpRequest->request->get('order');
 
         if (!empty($order['status'])) {
-
             return $order['status'];
         }
+
         return 'NONE';
     }
 
-    public function getStatus() {
-
+    public function getStatus()
+    {
         $order = $this->httpRequest->request->get('order');
 
         if (!empty($order['status'])) {
-
             return $order['status'];
         }
+
         return 'NONE';
     }
 }
