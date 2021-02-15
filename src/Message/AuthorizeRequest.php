@@ -1,45 +1,56 @@
 <?php
+
 namespace Omnipay\PayU\Message;
 
 class AuthorizeRequest extends AbstractRequest
 {
-    public function getEmail() {
+    public function getEmail()
+    {
         return $this->getParameter('email');
     }
 
-    public function setEmail($value) {
+    public function setEmail($value)
+    {
         return $this->setParameter('email', $value);
     }
 
-    public function getPhone() {
+    public function getPhone()
+    {
         return $this->getParameter('phone');
     }
 
-    public function setPhone($value) {
+    public function setPhone($value)
+    {
         return $this->setParameter('phone', $value);
     }
 
-    public function getName() {
+    public function getName()
+    {
         return $this->getParameter('name');
     }
 
-    public function setName($value) {
+    public function setName($value)
+    {
         return $this->setParameter('name', $value);
     }
 
-    public function getPayMethod() {
+    public function getPayMethod()
+    {
         return $this->getParameter('payMethod');
     }
 
-    public function setPayMethod($value) {
+    public function setPayMethod($value)
+    {
         return $this->setParameter('payMethod', $value);
     }
 
-    public function getPayMethodValue() {
+    public function getPayMethodValue()
+    {
         return $this->getParameter('payMethodValue');
     }
 
-    public function setPayMethodValue($value) {
+    public function setPayMethodValue($value)
+    {
         return $this->setParameter('payMethodValue', $value);
     }
 
@@ -65,12 +76,11 @@ class AuthorizeRequest extends AbstractRequest
             $data['products'] = [];
 
             foreach ($items as $i => $item) {
-
                 if (!empty($item['price']) && !empty($item['quantity']) && !empty($item['name'])) {
                     $data['products'][$i] = [
-                        'name' => $item['name'],
+                        'name'      => $item['name'],
                         'unitPrice' => $this->toAmount($item['price']),
-                        'quantity' => $item['quantity'],
+                        'quantity'  => $item['quantity'],
                     ];
                 }
             }
@@ -78,7 +88,7 @@ class AuthorizeRequest extends AbstractRequest
 
         if ($this->getPayMethod()) {
             $data['payMethods']['payMethod'] = [
-                'type' => 'PBL',
+                'type'  => 'PBL',
                 'value' => $this->getPayMethod(),
             ];
 
@@ -93,8 +103,8 @@ class AuthorizeRequest extends AbstractRequest
         return $data;
     }
 
-    protected function getEndpoint() {
-
+    protected function getEndpoint()
+    {
         return $this->getEndpointUrl().'/api/v2_1/orders';
     }
 }

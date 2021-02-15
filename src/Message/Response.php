@@ -12,15 +12,15 @@ class Response extends AbstractResponse implements RedirectResponseInterface
 
     protected $headers = [];
 
-    public function __construct(RequestInterface $request, $data, $headers = []) {
-
+    public function __construct(RequestInterface $request, $data, $headers = [])
+    {
         $this->request = $request;
         $this->data = $data;
         $this->headers = $headers;
     }
 
-    public function isSuccessful() {
-
+    public function isSuccessful()
+    {
         if (!empty($this->data['status']['statusCode']) && $this->data['status']['statusCode'] == 'SUCCESS') {
             return true;
         }
@@ -28,7 +28,8 @@ class Response extends AbstractResponse implements RedirectResponseInterface
         return false;
     }
 
-    public function getResponse() {
+    public function getResponse()
+    {
         if ($this->isSuccessful()) {
             return $this->data;
         }
@@ -36,24 +37,20 @@ class Response extends AbstractResponse implements RedirectResponseInterface
         return null;
     }
 
-    public function getMessage() {
-
+    public function getMessage()
+    {
         if (!$this->isSuccessful()) {
-
             $error = '';
 
             if (isset($this->data['error_description'])) {
                 $error = $this->data['error_description'];
-            }
-            else if (isset($this->data['status']['statusDesc'])) {
-
+            } elseif (isset($this->data['status']['statusDesc'])) {
                 $error = $this->data['status']['statusDesc'];
 
                 if (isset($this->data['status']['codeLiteral'])) {
-                    $error .= ': ' . $this->data['status']['codeLiteral'];
+                    $error .= ': '.$this->data['status']['codeLiteral'];
                 }
-            }
-            else {
+            } else {
                 $error .= 'Undefined error.';
             }
 
@@ -63,23 +60,21 @@ class Response extends AbstractResponse implements RedirectResponseInterface
         return null;
     }
 
-    public function getCode() {
-
+    public function getCode()
+    {
         if (!$this->isSuccessful() && isset($this->data['status']['code'])) {
             return $this->data['status']['code'];
-        }
-        else if (isset($this->data['error'])) {
+        } elseif (isset($this->data['error'])) {
             return $this->data['error'];
-        }
-        else {
+        } else {
             return 404;
         }
 
         return null;
     }
 
-    public function isRedirect() {
-
+    public function isRedirect()
+    {
         if (!empty($this->data['redirectUri'])) {
             return true;
         }
@@ -87,8 +82,8 @@ class Response extends AbstractResponse implements RedirectResponseInterface
         return false;
     }
 
-    public function redirect() {
-
+    public function redirect()
+    {
         if (isset($this->data['redirectUri'])) {
             header('Location: '.$this->data['redirectUri']);
         }
@@ -96,8 +91,8 @@ class Response extends AbstractResponse implements RedirectResponseInterface
         return false;
     }
 
-    public function getRedirectUrl() {
-
+    public function getRedirectUrl()
+    {
         if (isset($this->data['redirectUri']) && !empty($this->data['redirectUri'])) {
             return $this->data['redirectUri'];
         }
@@ -105,8 +100,8 @@ class Response extends AbstractResponse implements RedirectResponseInterface
         return null;
     }
 
-    public function getTransactionReference() {
-
+    public function getTransactionReference()
+    {
         if (isset($this->data['orderId'])) {
             return $this->data['orderId'];
         }
@@ -114,13 +109,13 @@ class Response extends AbstractResponse implements RedirectResponseInterface
         return null;
     }
 
-    public function getRedirectMethod() {
-
+    public function getRedirectMethod()
+    {
         return 'GET';
     }
 
-    public function getRedirectData() {
-
+    public function getRedirectData()
+    {
         return null;
     }
 }

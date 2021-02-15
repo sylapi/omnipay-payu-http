@@ -7,11 +7,12 @@ class CompletePurchaseRequest extends AbstractRequest
     public function getData()
     {
         $this->setRequestMethod('GET');
+
         return [];
     }
 
-    protected function getEndpoint() {
-
+    protected function getEndpoint()
+    {
         return $this->getEndpointUrl().'/api/v2_1/orders/'.urlencode($this->getOrderId());
     }
 
@@ -20,11 +21,9 @@ class CompletePurchaseRequest extends AbstractRequest
         $headers = $this->getHeaders();
 
         if (empty($this->tokenResonseFailure)) {
-
             $httpResponse = $this->httpClient->request('GET', $this->getEndpoint(), $headers);
             $responseBody = json_decode($httpResponse->getBody()->getContents(), true);
-        }
-        else {
+        } else {
             $responseBody = $this->tokenResonseFailure;
         }
 

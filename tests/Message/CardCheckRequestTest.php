@@ -1,4 +1,5 @@
 <?php
+
 namespace Omnipay\Paylane\Message;
 
 use Omnipay\Common\CreditCard;
@@ -13,9 +14,9 @@ class CardCheckRequestTest extends TestCase
         $card = new CreditCard($this->getValidCard());
 
         $this->request = new CardCheckRequest($this->getHttpClient(), $this->getHttpRequest());
-        $this->request->initialize(array(
-            'card'          => $card
-        ));
+        $this->request->initialize([
+            'card'          => $card,
+        ]);
 
         $data = $this->request->getData();
 

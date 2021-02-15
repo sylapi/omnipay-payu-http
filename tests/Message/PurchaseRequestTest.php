@@ -1,4 +1,5 @@
 <?php
+
 namespace Omnipay\Paylane\Message;
 
 use Omnipay\Common\CreditCard;
@@ -15,11 +16,11 @@ class PurchaseRequestTest extends TestCase
         $card->setStartYear(2020);
 
         $this->request = new PurchaseRequest($this->getHttpClient(), $this->getHttpRequest());
-        $this->request->initialize(array(
+        $this->request->initialize([
             'ip'            => '127.0.0.1',
             'amount'        => '12.00',
-            'card'          => $card
-        ));
+            'card'          => $card,
+        ]);
 
         $data = $this->request->getData();
 
