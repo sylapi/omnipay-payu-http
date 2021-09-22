@@ -54,6 +54,26 @@ class AuthorizeRequest extends AbstractRequest
         return $this->setParameter('payMethodValue', $value);
     }
 
+    public function getRecurring()
+    {
+        return $this->getParameter('recurring');
+    }
+
+    public function setRecurring($value)
+    {
+        return $this->setParameter('recurring', $value);
+    }
+
+    public function setPayMethods($value)
+    {
+        return $this->setParameter('payMethods', $value);
+    }
+
+    public function getPayMethods()
+    {
+        return $this->getParameter('payMethods');
+    }
+
     public function getData()
     {
         $this->getRequestMethod('POST');
@@ -95,6 +115,14 @@ class AuthorizeRequest extends AbstractRequest
             if ($this->getPayMethodValue()) {
                 $data['payMethods']['payMethod']['authorizationCode'] = $this->getPayMethodValue();
             }
+        }
+
+        if ($this->getRecurring()) {
+            $data['recurring'] = $this->getRecurring();
+        }
+
+        if ($this->getPayMethods() && \is_array($this->getPayMethods())) {
+            $data['payMethods'] = $this->getPayMethods();
         }
 
         $data['continueUrl'] = $this->getReturnUrl();
