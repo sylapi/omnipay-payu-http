@@ -118,6 +118,7 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
         $headers = [
             'Content-type'  => 'application/json',
             'Authorization' => 'Bearer '.$token,
+            'allow_redirects' => false,
         ];
 
         return $headers;
