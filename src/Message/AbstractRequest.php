@@ -118,8 +118,8 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
         $token = $this->getAccessToken();
 
         $headers = [
-            'Content-type'  => 'application/json',
-            'Authorization' => 'Bearer '.$token,
+            'Content-type'    => 'application/json',
+            'Authorization'   => 'Bearer '.$token,
             'allow_redirects' => false,
         ];
 
@@ -136,8 +136,8 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
                 $this->getEndpoint(),
                 [
                     'allow_redirects' => false,
-                    'headers' => $headers,
-                    'body' => \json_encode($data)
+                    'headers'         => $headers,
+                    'body'            => \json_encode($data),
                 ]
             );
             $responseBody = json_decode($httpResponse->getBody()->getContents(), true);
