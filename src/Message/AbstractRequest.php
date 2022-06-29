@@ -2,6 +2,8 @@
 
 namespace Omnipay\PayU\Message;
 
+use GuzzleHttp\Client;
+
 abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
 {
     protected $liveEndpoint = 'https://secure.payu.com';
@@ -118,6 +120,7 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
         $headers = [
             'Content-type'  => 'application/json',
             'Authorization' => 'Bearer '.$token,
+            'allow_redirects' => false,
         ];
 
         return $headers;
@@ -128,7 +131,15 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
         $headers = $this->getHeaders();
 
         if (empty($this->tokenResonseFailure)) {
-            $httpResponse = $this->httpClient->request($this->getRequestMethod(), $this->getEndpoint(), $headers, json_encode($data));
+            $httpResponse = (new Client())->request(
+                $this->getRequestMethod(),
+                $this->getEndpoint(),
+                [
+                    'allow_redirects' => false,
+                    'headers' => $headers,
+                    'body' => \json_encode($data)
+                ]
+            );
             $responseBody = json_decode($httpResponse->getBody()->getContents(), true);
         } else {
             $responseBody = $this->tokenResonseFailure;
